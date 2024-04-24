@@ -10,7 +10,7 @@ Dokku App: https://team02.dokku-12.cs.ucsb.edu
 |Jason      |jason-rodrigues|      `Help Requests`     |
 |Simon      |Simonmann17    |   `UCSB Organizations`   |
 |Daniel     |Division7      | `Recommendation Requests`|
-|Tony Tran  |GuBinhti       |   `ZipCodeQueryService`  |
+|Tony Tran  |GuBinhti       |     `UCSB MenuItems`     |
 |Sreeganesh |SR33G33        |  `UCSBMenuItems Review`  |
 	
 Deployments:
