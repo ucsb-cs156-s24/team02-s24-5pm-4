@@ -2,8 +2,6 @@
 
 Instructions: <https://ucsb-cs156.github.io/s24/lab/team02.html>
 
-Dokku App: https://team02.dokku-12.cs.ucsb.edu
-
 |   Name    |   GitHub Id   |  Database         |
 |-----------|---------------|--------------------------|
 |Elijah     |ElijahCanderson|        `Articles`        |
@@ -15,8 +13,8 @@ Dokku App: https://team02.dokku-12.cs.ucsb.edu
 	
 Deployments:
 
-* Prod: <https://team02.dokku-17.cs.ucsb.edu>
-* QA: <https://team02-qa.dokku-17.cs.ucsb.edu>
+* Prod: <https://team02.dokku-12.cs.ucsb.edu>
+* QA: <https://team02-qa.dokku-12.cs.ucsb.edu>
 
 # Setup before running application
 
