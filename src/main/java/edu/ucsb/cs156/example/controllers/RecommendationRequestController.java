@@ -69,4 +69,13 @@ public class RecommendationRequestController {
 
         return savedRecommendationRequest;
     }
+
+    @Operation(summary = "Get a single recommendation Request")
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @GetMapping("")
+    public RecommendationRequest getById(@Parameter(name = "id") @RequestParam Long id){
+        RecommendationRequest recommendationRequest = recommendationRequestRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(RecommendationRequest.class, id));
+        return recommendationRequest;
+    }
 }
