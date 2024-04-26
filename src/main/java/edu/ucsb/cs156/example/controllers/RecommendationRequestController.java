@@ -34,7 +34,7 @@ import java.time.LocalDateTime;
 @RequestMapping("/api/recommendationrequest")
 @RestController
 @Slf4j
-public class RecommendationRequestController {
+public class RecommendationRequestController extends ApiController {
     @Autowired
     RecommendationRequestRepository recommendationRequestRepository;
 
