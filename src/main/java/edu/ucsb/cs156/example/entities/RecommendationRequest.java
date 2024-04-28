@@ -27,4 +27,8 @@ public class RecommendationRequest {
     LocalDateTime dateNeeded;
     boolean done;
 
+    public boolean getDone(){
+        return done;
+    }
+
 }
