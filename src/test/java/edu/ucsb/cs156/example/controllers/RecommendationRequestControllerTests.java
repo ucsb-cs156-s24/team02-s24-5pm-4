@@ -260,4 +260,32 @@ public class RecommendationRequestControllerTests extends ControllerTestCase{
         Map<String, Object> json = responseToJson(response);
         assertEquals("RecommendationRequest with id 7 not found", json.get("message"));
     }
+    @Test
+    public void rr_get_coverage(){
+        LocalDateTime first = LocalDateTime.parse("2024-04-26T08:08:00");
+        LocalDateTime second = LocalDateTime.parse("2024-04-27T08:08:00");
+        LocalDateTime third = LocalDateTime.parse("2024-04-28T08:08:00");
+        LocalDateTime fourth = LocalDateTime.parse("2024-04-29T08:08:00");
+
+        RecommendationRequest recommendationRequest1 = RecommendationRequest.builder()
+                .requesterEmail("djensen2@outlook.com")
+                .professorEmail("pconrad@ucsb.edu")
+                .explanation("masters program")
+                .dateRequested(first)
+                .dateNeeded(second)
+                .done(false)
+                .build();
+
+        RecommendationRequest recommendationRequest2 = RecommendationRequest.builder()
+                .requesterEmail("djensen@ucsb.edu")
+                .professorEmail("zmatni@ucsb.edu")
+                .explanation("phd program")
+                .dateRequested(third)
+                .dateNeeded(fourth)
+                .done(true)
+                .build();
+
+        assertEquals(recommendationRequest1.getDone(), false);
+        assertEquals(recommendationRequest2.getDone(), true);
+    }
 }
