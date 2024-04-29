@@ -9,5 +9,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface UCSBOrganizationsRepository extends CrudRepository<UCSBOrganizations, String> {
- 
+
 }
