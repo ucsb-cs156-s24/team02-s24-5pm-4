@@ -12,7 +12,7 @@
               "not": [
                 {
                   "tableExists": {
-                    "tableName": "MENUITEMREVIEW"
+                    "tableName": "MENUITEMREVIEWS"
                   }
                 }
               ]
@@ -35,19 +35,19 @@
                   },
                   {
                     "column": {
-                      "name": "ITEMID",
+                      "name": "ITEM_ID",
                       "type": "BIGINT"
                     }
                   },
                   {
                     "column": {
-                      "name": "LOCAL_DATE_TIME",
+                      "name": "DATE_REVIEWED",
                       "type": "TIMESTAMP"
                     }
                   },
                   {
                     "column": {
-                      "name": "REVIEWEREMAIL",
+                      "name": "REVIEWER_EMAIL",
                       "type": "VARCHAR(255)"
                     }
                   },
@@ -64,7 +64,7 @@
                     }
                   }
                 ],
-                "tableName": "MENUITEMREVIEW"
+                "tableName": "MENUITEMREVIEWS"
               }
             }
           ]
