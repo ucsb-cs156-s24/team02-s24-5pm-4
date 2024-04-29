@@ -1,8 +1,8 @@
 package edu.ucsb.cs156.example.controllers;
 
-import edu.ucsb.cs156.example.entities.UCSBDate;
+import edu.ucsb.cs156.example.entities.MenuItemReview;
 import edu.ucsb.cs156.example.errors.EntityNotFoundException;
-import edu.ucsb.cs156.example.repositories.UCSBDateRepository;
+import edu.ucsb.cs156.example.repositories.MenuItemReviewRepository;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -27,86 +27,60 @@ import javax.validation.Valid;
 
 import java.time.LocalDateTime;
 
-@Tag(name = "UCSBDates")
-@RequestMapping("/api/ucsbdates")
+@Tag(name = "MenuItemReview")
+@RequestMapping("/api/menuitemreview")
 @RestController
 @Slf4j
-public class UCSBDatesController extends ApiController {
+public class MenuItemReviewController extends ApiController {
 
     @Autowired
-    UCSBDateRepository ucsbDateRepository;
+    MenuItemReviewRepository menuItemReviewRepository;
 
-    @Operation(summary= "List all ucsb dates")
+    @Operation(summary= "List all menu item reviews")
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/all")
-    public Iterable<UCSBDate> allUCSBDates() {
-        Iterable<UCSBDate> dates = ucsbDateRepository.findAll();
-        return dates;
+    public Iterable<MenuItemReview> allMenuItemReviews() {
+        Iterable<MenuItemReview> reviews = menuItemReviewRepository.findAll();
+        return reviews;
     }
 
-    @Operation(summary= "Create a new date")
+    @Operation(summary= "Create a new menu item review")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/post")
-    public UCSBDate postUCSBDate(
-            @Parameter(name="quarterYYYYQ") @RequestParam String quarterYYYYQ,
-            @Parameter(name="name") @RequestParam String name,
-            @Parameter(name="date (in iso format, e.g. YYYY-mm-ddTHH:MM:SS; see https://en.wikipedia.org/wiki/ISO_8601)") @RequestParam("localDateTime") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime localDateTime)
+    public MenuItemReview postMenuItemReview(
+            @Parameter(name = "itemId") @RequestParam long itemId,
+            @Parameter(name = "reviewerEmail") @RequestParam String reviewerEmail,
+            @Parameter(name = "stars") @RequestParam int stars,
+            @Parameter(name = "dateReviewed") @RequestParam("dateReviewed") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime dateReviewed,
+            @Parameter(name = "comments") @RequestParam String comments)
             throws JsonProcessingException {
 
         // For an explanation of @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
         // See: https://www.baeldung.com/spring-date-parameters
 
-        log.info("localDateTime={}", localDateTime);
+        log.info("dateReviewed={}", dateReviewed);
 
-        UCSBDate ucsbDate = new UCSBDate();
-        ucsbDate.setQuarterYYYYQ(quarterYYYYQ);
-        ucsbDate.setName(name);
-        ucsbDate.setLocalDateTime(localDateTime);
+        MenuItemReview menuItemReview = new MenuItemReview();
 
-        UCSBDate savedUcsbDate = ucsbDateRepository.save(ucsbDate);
+        menuItemReview.setItemId(itemId);
+        menuItemReview.setReviewerEmail(reviewerEmail);
+        menuItemReview.setStars(stars);
+        menuItemReview.setDateReviewed(dateReviewed);
+        menuItemReview.setComments(comments);
 
-        return savedUcsbDate;
+        MenuItemReview savedMenuItemReview = menuItemReviewRepository.save(menuItemReview);
+
+        return savedMenuItemReview;
     }
 
-    @Operation(summary= "Get a single date")
+    @Operation(summary= "Get a single review")
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("")
-    public UCSBDate getById(
+    public MenuItemReview getById(
             @Parameter(name="id") @RequestParam Long id) {
-        UCSBDate ucsbDate = ucsbDateRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException(UCSBDate.class, id));
+        MenuItemReview menuItemReview = menuItemReviewRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(MenuItemReview.class, id));
 
-        return ucsbDate;
-    }
-
-    @Operation(summary= "Delete a UCSBDate")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @DeleteMapping("")
-    public Object deleteUCSBDate(
-            @Parameter(name="id") @RequestParam Long id) {
-        UCSBDate ucsbDate = ucsbDateRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException(UCSBDate.class, id));
-
-        ucsbDateRepository.delete(ucsbDate);
-        return genericMessage("UCSBDate with id %s deleted".formatted(id));
-    }
-
-    @Operation(summary= "Update a single date")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @PutMapping("")
-    public UCSBDate updateUCSBDate(
-            @Parameter(name="id") @RequestParam Long id,
-            @RequestBody @Valid UCSBDate incoming) {
-
-        UCSBDate ucsbDate = ucsbDateRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException(UCSBDate.class, id));
-
-        ucsbDate.setQuarterYYYYQ(incoming.getQuarterYYYYQ());
-        ucsbDate.setName(incoming.getName());
-        ucsbDate.setLocalDateTime(incoming.getLocalDateTime());
-
-        ucsbDateRepository.save(ucsbDate);
-
-        return ucsbDate;
+        return menuItemReview;
     }
 }
