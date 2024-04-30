@@ -27,7 +27,7 @@
                       "autoIncrement": true,
                       "constraints": {
                         "primaryKey": true,
-                        "primaryKeyName": "CONSTRAINT_7"
+                        "primaryKeyName": "PK_MENUITEMREVIEW_ID"
                       },
                       "name": "ID",
                       "type": "BIGINT"
@@ -35,14 +35,8 @@
                   },
                   {
                     "column": {
-                      "name": "ITEMID",
+                      "name": "ITEM_ID",
                       "type": "BIGINT"
-                    }
-                  },
-                  {
-                    "column": {
-                      "name": "LOCAL_DATE_TIME",
-                      "type": "TIMESTAMP"
                     }
                   },
                   {
@@ -54,7 +48,13 @@
                   {
                     "column": {
                       "name": "STARS",
-                      "type": "INT"
+                      "type": "INTEGER"
+                    }
+                  },
+                  {
+                    "column": {
+                      "name": "DATE_REVIEWED",
+                      "type": "TIMESTAMP"
                     }
                   },
                   {
