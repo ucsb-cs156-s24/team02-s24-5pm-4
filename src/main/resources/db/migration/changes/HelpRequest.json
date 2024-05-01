@@ -71,12 +71,6 @@
                       "name": "SOLVED",
                       "type": "BOOLEAN"
                     }
-                  },
-                  {
-                    "column": {
-                      "name": "QUARTERYYYYQ",
-                      "type": "VARCHAR(255)"
-                    }
                   }
                 ],
                 "tableName": "HELPREQUEST"
