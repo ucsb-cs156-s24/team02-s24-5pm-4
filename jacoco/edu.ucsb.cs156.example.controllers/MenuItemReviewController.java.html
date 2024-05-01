@@ -107,7 +107,7 @@ import java.time.LocalDateTime;
 <span class="fc" id="L107">        return menuItemReview;</span>
     }
 
-    @Operation(summary= &quot;Delete a UCSBDate&quot;)
+    @Operation(summary= &quot;Delete a review&quot;)
     @PreAuthorize(&quot;hasRole('ROLE_ADMIN')&quot;)
     @DeleteMapping(&quot;&quot;)
     public Object deleteMenuItemReview(
