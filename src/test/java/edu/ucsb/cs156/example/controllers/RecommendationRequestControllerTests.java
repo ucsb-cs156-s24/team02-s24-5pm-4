@@ -261,7 +261,6 @@ public class RecommendationRequestControllerTests extends ControllerTestCase{
         assertEquals("RecommendationRequest with id 7 not found", json.get("message"));
     }
 
-
     //DELETE tests
     @WithMockUser(roles = {"ADMIN","USER"})
     @Test
