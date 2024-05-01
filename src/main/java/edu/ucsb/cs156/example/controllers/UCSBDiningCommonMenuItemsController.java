@@ -11,6 +11,8 @@ import edu.ucsb.cs156.example.repositories.UCSBDiningCommonMenuItemRepository;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import liquibase.pro.packaged.iD;
+import liquibase.pro.packaged.id;
 import lombok.extern.slf4j.Slf4j;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -63,5 +65,16 @@ public class UCSBDiningCommonMenuItemsController extends ApiController {
             items.setStation(station);
             UCSBDiningCommonMenuItems saveditems = ucsbDiningCommonMenuItemRepository.save(items);
             return saveditems;
+        }
+
+        @Operation(summary= "Get a single item")
+        @PreAuthorize("hasRole('ROLE_USER')")
+        @GetMapping("")
+        public UCSBDiningCommonMenuItems getById(
+                @Parameter(name="id") @RequestParam long id) {
+                    UCSBDiningCommonMenuItems item = ucsbDiningCommonMenuItemRepository.findById(id)
+                    .orElseThrow(() -> new EntityNotFoundException(UCSBDiningCommonMenuItems.class, id));
+    
+            return item;
         }
 }
