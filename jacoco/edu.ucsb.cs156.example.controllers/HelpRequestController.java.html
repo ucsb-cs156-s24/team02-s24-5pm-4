@@ -81,5 +81,27 @@ import java.time.LocalDateTime;
 
 <span class="fc" id="L82">        return helpRequest;</span>
     }
+
+    @Operation(summary= &quot;Update a help request&quot;)
+    @PreAuthorize(&quot;hasRole('ROLE_ADMIN')&quot;)
+    @PutMapping(&quot;&quot;)
+    public HelpRequest updateHelpRequest(
+            @Parameter(name=&quot;id&quot;) @RequestParam Long id,
+            @RequestBody @Valid HelpRequest incoming) {
+
+<span class="fc" id="L92">        HelpRequest helpRequest = helpRequestRepository.findById(id)</span>
+<span class="fc" id="L93">                .orElseThrow(() -&gt; new EntityNotFoundException(HelpRequest.class, id));</span>
+
+<span class="fc" id="L95">        helpRequest.setRequesterEmail(incoming.getRequesterEmail());</span>
+<span class="fc" id="L96">        helpRequest.setTeamId(incoming.getTeamId());</span>
+<span class="fc" id="L97">        helpRequest.setTableOrBreakoutRoom(incoming.getTableOrBreakoutRoom());</span>
+<span class="fc" id="L98">        helpRequest.setRequestTime(incoming.getRequestTime());</span>
+<span class="fc" id="L99">        helpRequest.setExplanation(incoming.getExplanation());</span>
+<span class="fc" id="L100">        helpRequest.setSolved(incoming.getSolved());</span>
+
+<span class="fc" id="L102">        helpRequestRepository.save(helpRequest);</span>
+
+<span class="fc" id="L104">        return helpRequest;</span>
+    }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
