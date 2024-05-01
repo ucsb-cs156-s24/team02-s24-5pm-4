@@ -88,7 +88,7 @@ import java.time.LocalDateTime;
     @Operation(summary= &quot;Update a single review&quot;)
     @PreAuthorize(&quot;hasRole('ROLE_ADMIN')&quot;)
     @PutMapping(&quot;&quot;)
-    public MenuItemReview updateUCSBDate(
+    public MenuItemReview updateMenuItemReview(
             @Parameter(name=&quot;id&quot;) @RequestParam Long id,
             @RequestBody @Valid MenuItemReview incoming) {
 
@@ -106,5 +106,18 @@ import java.time.LocalDateTime;
 
 <span class="fc" id="L107">        return menuItemReview;</span>
     }
+
+    @Operation(summary= &quot;Delete a UCSBDate&quot;)
+    @PreAuthorize(&quot;hasRole('ROLE_ADMIN')&quot;)
+    @DeleteMapping(&quot;&quot;)
+    public Object deleteMenuItemReview(
+            @Parameter(name=&quot;id&quot;) @RequestParam Long id) {
+<span class="fc" id="L115">        MenuItemReview menuItemReview = menuItemReviewRepository.findById(id)</span>
+<span class="fc" id="L116">                .orElseThrow(() -&gt; new EntityNotFoundException(MenuItemReview.class, id));</span>
+
+<span class="fc" id="L118">        menuItemReviewRepository.delete(menuItemReview);</span>
+<span class="fc" id="L119">        return genericMessage(&quot;MenuItemReview with id %s deleted&quot;.formatted(id));</span>
+    }
+
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
