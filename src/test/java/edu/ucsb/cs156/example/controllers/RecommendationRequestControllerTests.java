@@ -260,6 +260,55 @@ public class RecommendationRequestControllerTests extends ControllerTestCase{
         Map<String, Object> json = responseToJson(response);
         assertEquals("RecommendationRequest with id 7 not found", json.get("message"));
     }
+
+    //DELETE tests
+    @WithMockUser(roles = {"ADMIN","USER"})
+    @Test
+    public void admin_can_delete_RR() throws Exception{
+        LocalDateTime first = LocalDateTime.parse("2024-04-26T08:08:00");
+        LocalDateTime second = LocalDateTime.parse("2024-04-27T08:08:00");
+        RecommendationRequest recommendationRequest1 = RecommendationRequest.builder()
+                .requesterEmail("djensen2@outlook.com")
+                .professorEmail("pconrad@ucsb.edu")
+                .explanation("masters program")
+                .dateRequested(first)
+                .dateNeeded(second)
+                .done(false)
+                .build();
+
+        when(recommendationRequestRepository.findById(eq(7L))).thenReturn(Optional.of(recommendationRequest1));
+
+        MvcResult response = mockMvc.perform(
+                        delete("/api/recommendationrequest?id=7")
+                                .with(csrf()))
+                .andExpect(status().isOk()).andReturn();
+
+        verify(recommendationRequestRepository, times(1)).findById(eq(7L));
+        verify(recommendationRequestRepository, times(1)).delete(any());
+
+        Map<String, Object> json = responseToJson(response);
+        assertEquals("Recommendation request with id 7 deleted", json.get("message"));
+    }
+    @WithMockUser(roles = { "ADMIN", "USER" })
+    @Test
+    public void error_when_delete_nonexistent_RR()
+            throws Exception {
+        // arrange
+
+        when(recommendationRequestRepository.findById(eq(7L))).thenReturn(Optional.empty());
+
+        // act
+        MvcResult response = mockMvc.perform(
+                        delete("/api/recommendationrequest?id=7")
+                                .with(csrf()))
+                .andExpect(status().isNotFound()).andReturn();
+
+        // assert
+        verify(recommendationRequestRepository, times(1)).findById(7L);
+        Map<String, Object> json = responseToJson(response);
+        assertEquals("RecommendationRequest with id 7 not found", json.get("message"));
+    }
+
     @Test
     public void rr_get_coverage(){
         LocalDateTime first = LocalDateTime.parse("2024-04-26T08:08:00");
