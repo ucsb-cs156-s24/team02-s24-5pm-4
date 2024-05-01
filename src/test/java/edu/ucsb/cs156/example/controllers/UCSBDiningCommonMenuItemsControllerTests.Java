@@ -82,6 +82,7 @@ public class UCSBDiningCommonMenuItemsControllerTests extends ControllerTestCase
         String expectedJson = mapper.writeValueAsString(expectedCommons);
         String responseString = response.getResponse().getContentAsString();
         assertEquals(expectedJson, responseString);
+        
 
 
 
