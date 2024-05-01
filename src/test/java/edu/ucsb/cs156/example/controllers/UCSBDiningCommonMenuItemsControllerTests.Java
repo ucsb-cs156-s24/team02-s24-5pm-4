@@ -57,6 +57,8 @@ public class UCSBDiningCommonMenuItemsControllerTests extends ControllerTestCase
                             .andExpect(status().is(200)); // logged
     }
 
+    @WithMockUser(roles = { "USER" })
+    @Test
     public void logged_in_users_can_get_all_menu_items() throws Exception {
         UCSBDiningCommonMenuItems MenuItem1 = UCSBDiningCommonMenuItems.builder()
                                 .diningCommonsCode("De La Guerra")
