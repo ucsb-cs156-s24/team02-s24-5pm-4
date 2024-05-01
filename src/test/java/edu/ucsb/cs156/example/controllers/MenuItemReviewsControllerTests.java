@@ -60,14 +60,14 @@ public class MenuItemReviewsControllerTests extends ControllerTestCase{
     
         @WithMockUser(roles = { "USER" })
         @Test
-        public void logged_in_user_can_get_all_menuitemreviews() throws Exception {
+        public void logged_in_user_can_get_all_menuitemreview() throws Exception {
     
                 // arrange
                 LocalDateTime ldt1 = LocalDateTime.parse("2022-01-03T00:00:00");
     
                 MenuItemReview menuItemReview1 = MenuItemReview.builder()
                                 .itemId(1)
-                                .reviewerEmail("test@ucsb.edu")
+                                .reviewerEmail("test@gmail.com")
                                 .stars(5)
                                 .dateReviewed(ldt1)
                                 .comments("good")
@@ -77,7 +77,7 @@ public class MenuItemReviewsControllerTests extends ControllerTestCase{
     
                 MenuItemReview menuItemReview2 = MenuItemReview.builder()
                                 .itemId(1)
-                                .reviewerEmail("test2@ucsb.edu")
+                                .reviewerEmail("test2@gmail.com")
                                 .stars(2)
                                 .dateReviewed(ldt2)
                                 .comments("bad")
@@ -145,7 +145,7 @@ public class MenuItemReviewsControllerTests extends ControllerTestCase{
                 assertEquals(expectedJson, responseString);
         }
     
-        // Tests for GET /api/menuitemreviews?id=...
+        // Tests for GET /api/menuitemreview?id=...
     
             @Test
             public void logged_out_users_cannot_get_by_id() throws Exception {
@@ -162,7 +162,7 @@ public class MenuItemReviewsControllerTests extends ControllerTestCase{
     
                     MenuItemReview menuItemReview = MenuItemReview.builder()
                                 .itemId(1)
-                                .reviewerEmail("test@ucsb.edu")
+                                .reviewerEmail("test@gmail.com")
                                 .stars(5)
                                 .dateReviewed(ldt)
                                 .comments("good")
@@ -203,7 +203,7 @@ public class MenuItemReviewsControllerTests extends ControllerTestCase{
             }
 
 
-        // // Tests for DELETE /api/menuitemreviews?id=... 
+        // // Tests for DELETE /api/menuitemreview?id=... 
 
         // @WithMockUser(roles = { "ADMIN", "USER" })
         // @Test
@@ -222,7 +222,7 @@ public class MenuItemReviewsControllerTests extends ControllerTestCase{
 
         //         // act
         //         MvcResult response = mockMvc.perform(
-        //                         delete("/api/menuitemreviews?id=15")
+        //                         delete("/api/menuitemreview?id=15")
         //                                         .with(csrf()))
         //                         .andExpect(status().isOk()).andReturn();
 
@@ -244,7 +244,7 @@ public class MenuItemReviewsControllerTests extends ControllerTestCase{
 
         //         // act
         //         MvcResult response = mockMvc.perform(
-        //                         delete("/api/menuitemreviews?id=15")
+        //                         delete("/api/menuitemreview?id=15")
         //                                         .with(csrf()))
         //                         .andExpect(status().isNotFound()).andReturn();
 
@@ -254,79 +254,85 @@ public class MenuItemReviewsControllerTests extends ControllerTestCase{
         //         assertEquals("MenuItemReview with id 15 not found", json.get("message"));
         // }
 
-        // // Tests for PUT /api/menuitemreviews?id=... 
+        // // Tests for PUT /api/menuitemreview?id=... 
 
-        // @WithMockUser(roles = { "ADMIN", "USER" })
-        // @Test
-        // public void admin_can_edit_an_existing_menuitemreview() throws Exception {
-        //         // arrange
+        @WithMockUser(roles = { "ADMIN", "USER" })
+        @Test
+        public void admin_can_edit_an_existing_review() throws Exception {
+                // arrange
 
-        //         LocalDateTime ldt1 = LocalDateTime.parse("2022-01-03T00:00:00");
-        //         LocalDateTime ldt2 = LocalDateTime.parse("2023-01-03T00:00:00");
+                LocalDateTime ldt1 = LocalDateTime.parse("2022-01-03T00:00:00");
+                LocalDateTime ldt2 = LocalDateTime.parse("2023-01-03T00:00:00");
 
-        //         MenuItemReview ucsbDateOrig = MenuItemReview.builder()
-        //                         .name("firstDayOfClasses")
-        //                         .quarterYYYYQ("20222")
-        //                         .localDateTime(ldt1)
-        //                         .build();
+                MenuItemReview menuItemReviewOrig = MenuItemReview.builder()
+                            .itemId(1)
+                            .reviewerEmail("test@email.com")
+                            .stars(1)
+                            .dateReviewed(ldt1)
+                            .comments("original")
+                            .build();
 
-        //         MenuItemReview ucsbDateEdited = MenuItemReview.builder()
-        //                         .name("firstDayOfFestivus")
-        //                         .quarterYYYYQ("20232")
-        //                         .localDateTime(ldt2)
-        //                         .build();
+                MenuItemReview menuItemReviewChanged = MenuItemReview.builder()
+                            .itemId(2)
+                            .reviewerEmail("test2@gmailcom")
+                            .stars(2)
+                            .dateReviewed(ldt2)
+                            .comments("changed")
+                            .build();
 
-        //         String requestBody = mapper.writeValueAsString(ucsbDateEdited);
+                String requestBody = mapper.writeValueAsString(menuItemReviewChanged);
 
-        //         when(menuItemReviewRepository.findById(eq(67L))).thenReturn(Optional.of(ucsbDateOrig));
+                when(menuItemReviewRepository.findById(eq(5L))).thenReturn(Optional.of(menuItemReviewOrig));
 
-        //         // act
-        //         MvcResult response = mockMvc.perform(
-        //                         put("/api/menuitemreviews?id=67")
-        //                                         .contentType(MediaType.APPLICATION_JSON)
-        //                                         .characterEncoding("utf-8")
-        //                                         .content(requestBody)
-        //                                         .with(csrf()))
-        //                         .andExpect(status().isOk()).andReturn();
+                // act
+                MvcResult response = mockMvc.perform(
+                                put("/api/menuitemreview?id=5")
+                                                .contentType(MediaType.APPLICATION_JSON)
+                                                .characterEncoding("utf-8")
+                                                .content(requestBody)
+                                                .with(csrf()))
+                                .andExpect(status().isOk()).andReturn();
 
-        //         // assert
-        //         verify(menuItemReviewRepository, times(1)).findById(67L);
-        //         verify(menuItemReviewRepository, times(1)).save(ucsbDateEdited); // should be saved with correct user
-        //         String responseString = response.getResponse().getContentAsString();
-        //         assertEquals(requestBody, responseString);
-        // }
+                // assert
+                verify(menuItemReviewRepository, times(1)).findById(5L);
+                verify(menuItemReviewRepository, times(1)).save(menuItemReviewChanged); // should be saved with correct user
+                String responseString = response.getResponse().getContentAsString();
+                assertEquals(requestBody, responseString);
+        }
 
         
-        // @WithMockUser(roles = { "ADMIN", "USER" })
-        // @Test
-        // public void admin_cannot_edit_menuitemreview_that_does_not_exist() throws Exception {
-        //         // arrange
+        @WithMockUser(roles = { "ADMIN", "USER" })
+        @Test
+        public void admin_cannot_edit_review_that_does_not_exist() throws Exception {
+                // arrange
 
-        //         LocalDateTime ldt1 = LocalDateTime.parse("2022-01-03T00:00:00");
+                LocalDateTime date1 = LocalDateTime.parse("2022-01-03T00:00:00");
 
-        //         MenuItemReview ucsbEditedDate = MenuItemReview.builder()
-        //                         .name("firstDayOfClasses")
-        //                         .quarterYYYYQ("20222")
-        //                         .localDateTime(ldt1)
-        //                         .build();
+                MenuItemReview editedReview = MenuItemReview.builder()
+                            .itemId(3)
+                            .reviewerEmail("test@gmail.com")
+                            .stars(3)
+                            .dateReviewed(date1)
+                            .comments("test")
+                            .build();
 
-        //         String requestBody = mapper.writeValueAsString(ucsbEditedDate);
+                String requestBody = mapper.writeValueAsString(editedReview);
 
-        //         when(menuItemReviewRepository.findById(eq(67L))).thenReturn(Optional.empty());
+                when(menuItemReviewRepository.findById(eq(7L))).thenReturn(Optional.empty());
 
-        //         // act
-        //         MvcResult response = mockMvc.perform(
-        //                         put("/api/menuitemreviews?id=67")
-        //                                         .contentType(MediaType.APPLICATION_JSON)
-        //                                         .characterEncoding("utf-8")
-        //                                         .content(requestBody)
-        //                                         .with(csrf()))
-        //                         .andExpect(status().isNotFound()).andReturn();
+                // act
+                MvcResult response = mockMvc.perform(
+                                put("/api/menuitemreview?id=67")
+                                                .contentType(MediaType.APPLICATION_JSON)
+                                                .characterEncoding("utf-8")
+                                                .content(requestBody)
+                                                .with(csrf()))
+                                .andExpect(status().isNotFound()).andReturn();
 
-        //         // assert
-        //         verify(menuItemReviewRepository, times(1)).findById(67L);
-        //         Map<String, Object> json = responseToJson(response);
-        //         assertEquals("MenuItemReview with id 67 not found", json.get("message"));
+                // assert
+                verify(menuItemReviewRepository, times(1)).findById(7L);
+                Map<String, Object> json = responseToJson(response);
+                assertEquals("MenuItemReview with id 7 not found", json.get("message"));
 
-        // }
+        }
 }
