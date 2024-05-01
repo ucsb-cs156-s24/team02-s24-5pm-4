@@ -70,13 +70,32 @@ import java.time.LocalDateTime;
 <span class="fc" id="L70">        return savedRecommendationRequest;</span>
     }
 
-    @Operation(summary = &quot;Get a single recommendation Request&quot;)
+    @Operation(summary = &quot;Get a single recommendation request&quot;)
     @PreAuthorize(&quot;hasRole('ROLE_USER')&quot;)
     @GetMapping(&quot;&quot;)
     public RecommendationRequest getById(@Parameter(name = &quot;id&quot;) @RequestParam Long id){
 <span class="fc" id="L77">        RecommendationRequest recommendationRequest = recommendationRequestRepository.findById(id)</span>
 <span class="fc" id="L78">                .orElseThrow(() -&gt; new EntityNotFoundException(RecommendationRequest.class, id));</span>
 <span class="fc" id="L79">        return recommendationRequest;</span>
+    }
+
+    @Operation(summary = &quot;Update a single recommendation request&quot;)
+    @PreAuthorize(&quot;hasRole('ROLE_ADMIN')&quot;)
+    @PutMapping(&quot;&quot;)
+    public RecommendationRequest updateRecommendationRequest(@Parameter(name=&quot;id&quot;) @RequestParam Long id, @RequestBody @Valid RecommendationRequest incoming){
+<span class="fc" id="L86">        RecommendationRequest recommendationRequest = recommendationRequestRepository.findById(id)</span>
+<span class="fc" id="L87">                .orElseThrow(() -&gt; new EntityNotFoundException(RecommendationRequest.class, id));</span>
+
+<span class="fc" id="L89">        recommendationRequest.setRequesterEmail(incoming.getRequesterEmail());</span>
+<span class="fc" id="L90">        recommendationRequest.setProfessorEmail(incoming.getProfessorEmail());</span>
+<span class="fc" id="L91">        recommendationRequest.setExplanation(incoming.getExplanation());</span>
+<span class="fc" id="L92">        recommendationRequest.setDateRequested(incoming.getDateRequested());</span>
+<span class="fc" id="L93">        recommendationRequest.setDateNeeded(incoming.getDateNeeded());</span>
+<span class="fc" id="L94">        recommendationRequest.setDone(incoming.getDone());</span>
+
+<span class="fc" id="L96">        recommendationRequestRepository.save(recommendationRequest);</span>
+
+<span class="fc" id="L98">        return recommendationRequest;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
