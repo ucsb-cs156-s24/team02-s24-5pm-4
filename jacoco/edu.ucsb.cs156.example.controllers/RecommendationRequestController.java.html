@@ -34,7 +34,7 @@ import java.time.LocalDateTime;
 @RequestMapping(&quot;/api/recommendationrequest&quot;)
 @RestController
 <span class="fc" id="L36">@Slf4j</span>
-<span class="fc" id="L37">public class RecommendationRequestController {</span>
+<span class="fc" id="L37">public class RecommendationRequestController extends ApiController {</span>
     @Autowired
     RecommendationRequestRepository recommendationRequestRepository;
 
@@ -68,6 +68,15 @@ import java.time.LocalDateTime;
 <span class="fc" id="L68">        RecommendationRequest savedRecommendationRequest = recommendationRequestRepository.save(recommendationRequest);</span>
 
 <span class="fc" id="L70">        return savedRecommendationRequest;</span>
+    }
+
+    @Operation(summary = &quot;Get a single recommendation Request&quot;)
+    @PreAuthorize(&quot;hasRole('ROLE_USER')&quot;)
+    @GetMapping(&quot;&quot;)
+    public RecommendationRequest getById(@Parameter(name = &quot;id&quot;) @RequestParam Long id){
+<span class="fc" id="L77">        RecommendationRequest recommendationRequest = recommendationRequestRepository.findById(id)</span>
+<span class="fc" id="L78">                .orElseThrow(() -&gt; new EntityNotFoundException(RecommendationRequest.class, id));</span>
+<span class="fc" id="L79">        return recommendationRequest;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
