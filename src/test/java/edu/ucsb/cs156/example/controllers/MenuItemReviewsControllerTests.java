@@ -322,7 +322,7 @@ public class MenuItemReviewsControllerTests extends ControllerTestCase{
 
                 // act
                 MvcResult response = mockMvc.perform(
-                                put("/api/menuitemreview?id=67")
+                                put("/api/menuitemreview?id=7")
                                                 .contentType(MediaType.APPLICATION_JSON)
                                                 .characterEncoding("utf-8")
                                                 .content(requestBody)
