@@ -69,16 +69,16 @@ import java.time.LocalDateTime;
 
 <span class="fc" id="L70">        return savedarticle;</span>
     }
-/* 
+
     @Operation(summary= &quot;Get a single Article&quot;)
     @PreAuthorize(&quot;hasRole('ROLE_USER')&quot;)
     @GetMapping(&quot;&quot;)
     public Articles getById(
             @Parameter(name=&quot;id&quot;) @RequestParam Long id) {
-        Articles articles = ArticlesRepository.findById(id)
-                .orElseThrow(() -&gt; new EntityNotFoundException(Articles.class, id));
+<span class="fc" id="L78">        Articles articles = ArticlesRepository.findById(id)</span>
+<span class="fc" id="L79">                .orElseThrow(() -&gt; new EntityNotFoundException(Articles.class, id));</span>
 
-        return articles;
+<span class="fc" id="L81">        return articles;</span>
     }
 
     @Operation(summary= &quot;Delete a Article&quot;)
@@ -86,13 +86,13 @@ import java.time.LocalDateTime;
     @DeleteMapping(&quot;&quot;)
     public Object deleteArticles(
             @Parameter(name=&quot;id&quot;) @RequestParam Long id) {
-        Articles articles = ArticlesRepository.findById(id)
-                .orElseThrow(() -&gt; new EntityNotFoundException(Articles.class, id));
+<span class="fc" id="L89">        Articles articles = ArticlesRepository.findById(id)</span>
+<span class="fc" id="L90">                .orElseThrow(() -&gt; new EntityNotFoundException(Articles.class, id));</span>
 
-       ArticlesRepository.delete(articles);
-        return genericMessage(&quot;Article with id %s deleted&quot;.formatted(id));
+<span class="fc" id="L92">       ArticlesRepository.delete(articles);</span>
+<span class="fc" id="L93">        return genericMessage(&quot;Article with id %s deleted&quot;.formatted(id));</span>
     }
-
+/* 
     @Operation(summary= &quot;Update a single Article&quot;)
     @PreAuthorize(&quot;hasRole('ROLE_ADMIN')&quot;)
     @PutMapping(&quot;&quot;)
