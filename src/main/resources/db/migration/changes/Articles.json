@@ -35,7 +35,7 @@
                   },
                   {
                     "column": {
-                      "name": "dateAdded",
+                      "name": "date_added",
                       "type": "TIMESTAMP"
                     }
                   },
