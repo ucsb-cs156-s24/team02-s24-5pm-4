@@ -92,7 +92,7 @@ public class ArticlesController extends ApiController {
        ArticlesRepository.delete(articles);
         return genericMessage("Article with id %s deleted".formatted(id));
     }
-/* 
+ 
     @Operation(summary= "Update a single Article")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("")
@@ -114,5 +114,5 @@ public class ArticlesController extends ApiController {
 
         return articles;
     }
-*/
+
 }
