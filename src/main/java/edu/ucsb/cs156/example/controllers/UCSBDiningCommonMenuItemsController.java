@@ -34,7 +34,7 @@ import java.time.LocalDateTime;
 
 
 @Tag(name = "UCSBDiningCommonMenuItems")
-@RequestMapping("/api/ucsbdiningcommonmenuitems")
+@RequestMapping("/api/ucsbdiningcommonsmenuitems")
 @RestController
 @Slf4j
 
