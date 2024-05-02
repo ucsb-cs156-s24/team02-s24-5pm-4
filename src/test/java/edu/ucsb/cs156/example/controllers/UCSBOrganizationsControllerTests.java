@@ -3,7 +3,6 @@ package edu.ucsb.cs156.example.controllers;
 import edu.ucsb.cs156.example.repositories.UserRepository;
 import edu.ucsb.cs156.example.testconfig.TestConfig;
 import edu.ucsb.cs156.example.ControllerTestCase;
-import edu.ucsb.cs156.example.entities.UCSBDiningCommons;
 import edu.ucsb.cs156.example.entities.UCSBOrganizations;
 import edu.ucsb.cs156.example.repositories.UCSBOrganizationsRepository;
 
@@ -220,7 +219,7 @@ public class UCSBOrganizationsControllerTests extends ControllerTestCase {
 
         @WithMockUser(roles = { "ADMIN", "USER" })
         @Test
-        public void admin_tries_to_delete_non_existant_commons_and_gets_right_error_message()
+        public void admin_tries_to_delete_non_existant_organization_and_gets_right_error_message()
                         throws Exception {
                 // arrange
 
@@ -237,6 +236,75 @@ public class UCSBOrganizationsControllerTests extends ControllerTestCase {
                 Map<String, Object> json = responseToJson(response);
                 assertEquals("UCSBOrganizations with id SKY not found", json.get("message"));
         }
-
         
+        @WithMockUser(roles = { "ADMIN", "USER" })
+        @Test
+        public void admin_can_edit_an_existing_organization() throws Exception {
+                // arrange
+
+                UCSBOrganizations organization1 = UCSBOrganizations.builder()
+                                .orgCode("OSLI")
+                                .orgTranslationShort("STUDENT LIFE")
+                                .orgTranslation("OFFICE OF STUDENT LIFE")
+                                .inactive(false)
+                                .build();
+
+                UCSBOrganizations organization2 = UCSBOrganizations.builder()
+                                .orgCode("OSLI")
+                                .orgTranslationShort("OFFICE OF STUDENT LIFE")
+                                .orgTranslation("OFFICE OF STUDENT LIFE AT UCSB")
+                                .inactive(true)
+                                .build();
+
+                String requestBody = mapper.writeValueAsString(organization2);
+
+                when(ucsbOrganizationsRepository.findById(eq("OSLI"))).thenReturn(Optional.of(organization1));
+
+                // act
+                MvcResult response = mockMvc.perform(
+                                put("/api/ucsborganizations?orgCode=OSLI")
+                                                .contentType(MediaType.APPLICATION_JSON)
+                                                .characterEncoding("utf-8")
+                                                .content(requestBody)
+                                                .with(csrf()))
+                                .andExpect(status().isOk()).andReturn();
+
+                // assert
+                verify(ucsbOrganizationsRepository, times(1)).findById("OSLI");
+                verify(ucsbOrganizationsRepository, times(1)).save(organization2); // should be saved with updated info
+                String responseString = response.getResponse().getContentAsString();
+                assertEquals(requestBody, responseString);
+        }
+
+        @WithMockUser(roles = { "ADMIN", "USER" })
+        @Test
+        public void admin_cannot_edit_organization_that_does_not_exist() throws Exception {
+                // arrange
+
+                UCSBOrganizations editedOrganization = UCSBOrganizations.builder()
+                                .orgCode("ATL")
+                                .orgTranslationShort("ALL THE LIVES")
+                                .orgTranslation("ALL THE LIVES AT UCSB")
+                                .inactive(true)
+                                .build();
+
+                String requestBody = mapper.writeValueAsString(editedOrganization);
+
+                when(ucsbOrganizationsRepository.findById(eq("ATL"))).thenReturn(Optional.empty());
+
+                // act
+                MvcResult response = mockMvc.perform(
+                                put("/api/ucsborganizations?orgCode=ATL")
+                                                .contentType(MediaType.APPLICATION_JSON)
+                                                .characterEncoding("utf-8")
+                                                .content(requestBody)
+                                                .with(csrf()))
+                                .andExpect(status().isNotFound()).andReturn();
+
+                // assert
+                verify(ucsbOrganizationsRepository, times(1)).findById("ATL");
+                Map<String, Object> json = responseToJson(response);
+                assertEquals("UCSBOrganizations with id ATL not found", json.get("message"));
+
+        }
 }
