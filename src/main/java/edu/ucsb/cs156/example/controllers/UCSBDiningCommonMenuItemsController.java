@@ -3,10 +3,9 @@ package edu.ucsb.cs156.example.controllers;
 import edu.ucsb.cs156.example.entities.UCSBDate;
 import edu.ucsb.cs156.example.entities.UCSBDiningCommonMenuItems;
 import edu.ucsb.cs156.example.entities.UCSBDiningCommons;
-import edu.ucsb.cs156.example.entities.UCSBDiningCommonsMenuItems;
 import edu.ucsb.cs156.example.errors.EntityNotFoundException;
 import edu.ucsb.cs156.example.repositories.UCSBDateRepository;
-import edu.ucsb.cs156.example.repositories.UCSBDiningCommonMenuItemRepository;
+import edu.ucsb.cs156.example.repositories.UCSBDiningCommonMenuItemsRepository;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -35,37 +34,42 @@ import java.time.LocalDateTime;
 
 
 @Tag(name = "UCSBDiningCommonMenuItems")
-@RequestMapping("/api/ucsbdiningcommonmenuitem")
+@RequestMapping("/api/ucsbdiningcommonmenuitems")
 @RestController
 @Slf4j
 
 public class UCSBDiningCommonMenuItemsController extends ApiController {
 
     @Autowired
-    UCSBDiningCommonMenuItemRepository ucsbDiningCommonMenuItemRepository;
+    UCSBDiningCommonMenuItemsRepository ucsbDiningCommonMenuItemsRepository;
 
     @Operation(summary= "List all ucsb dining common menu items")
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/all")
-    public Iterable<UCSBDiningCommonMenuItems> allUCSBDiningCommonsMenuItems() {
-        Iterable<UCSBDiningCommonMenuItems> items  = ucsbDiningCommonMenuItemRepository.findAll();
-        return items;
+    public Iterable<UCSBDiningCommonMenuItems> allUCSBDiningCommonMenuItems() {
+        Iterable<UCSBDiningCommonMenuItems> menuItems  = ucsbDiningCommonMenuItemsRepository.findAll();
+        return menuItems;
     }
-    @Operation(summary= "Create a new commons")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @PostMapping("/post")
-    public UCSBDiningCommonMenuItems postCommonMenuItems (
-        @Parameter(name="diningCommonsCode") @RequestParam String code,
-        @Parameter(name="name") @RequestParam String name,
-        @Parameter(name="station") @RequestParam String station
-        ){
-            UCSBDiningCommonMenuItems items = new UCSBDiningCommonMenuItems();
-            items.setDiningCommonsCode(code);
-            items.setName(name);
-            items.setStation(station);
-            UCSBDiningCommonMenuItems saveditems = ucsbDiningCommonMenuItemRepository.save(items);
-            return saveditems;
-        }
+
+
+    // @Operation(summary= "Create a new item")
+    // @PreAuthorize("hasRole('ROLE_ADMIN')")
+    // @PostMapping("/post")
+    // public UCSBDiningCommonMenuItems postCommonMenuItems (
+    //         @Parameter(name="diningCommonsCode") @RequestParam String diningCommonsCode,
+    //         @Parameter(name="name") @RequestParam String name,
+    //         @Parameter(name="station") @RequestParam String station) 
+    //         throws JsonProcessingException{
+        
+    //     UCSBDiningCommonMenuItems items = new UCSBDiningCommonMenuItems();
+    //     items.setDiningCommonsCode(diningCommonsCode);
+    //     items.setName(name);
+    //     items.setStation(station);
+
+    //     UCSBDiningCommonMenuItems saveditems = ucsbDiningCommonMenuItemsRepository.save(items);
+
+    //     return saveditems;
+    //     }
 
     // @Operation(summary= "Get a single item")
     // @PreAuthorize("hasRole('ROLE_USER')")
