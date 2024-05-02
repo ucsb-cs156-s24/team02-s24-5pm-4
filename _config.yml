@@ -23,4 +23,4 @@ repo_name: "TBD"
 repo: ucsb-cs156-s24/team02-s24-5pm-4
 owner: ucsb-cs156-s24
 repo_name: team02-s24-5pm-4
-pull_requests: [{"author":{"id":"MDQ6VXNlcjUxNTIwMzU4","is_bot":false,"login":"SR33G33","name":"Sreeganesh Siva"},"headRefName":"revert-76-Eli-Post+All","number":78,"title":"Revert \"Initial repository and DB setup\"","url":"https://github.com/ucsb-cs156-s24/team02-s24-5pm-4/pull/78"},{"author":{"id":"MDQ6VXNlcjUxNTIwMzU4","is_bot":false,"login":"SR33G33","name":"Sreeganesh Siva"},"headRefName":"revert-74-Eli-Final","number":77,"title":"Revert \"Eli final, No further Additions to me made if this is complete\"","url":"https://github.com/ucsb-cs156-s24/team02-s24-5pm-4/pull/77"}]
+pull_requests: [{"author":{"id":"U_kgDOBYEfQA","is_bot":false,"login":"GuBinhti","name":""},"headRefName":"Tony-JSON","number":79,"title":"json file","url":"https://github.com/ucsb-cs156-s24/team02-s24-5pm-4/pull/79"}]
