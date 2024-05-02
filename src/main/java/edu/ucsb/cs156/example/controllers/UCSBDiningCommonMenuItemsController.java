@@ -52,31 +52,31 @@ public class UCSBDiningCommonMenuItemsController extends ApiController {
     }
 
 
-    // @Operation(summary= "Create a new item")
-    // @PreAuthorize("hasRole('ROLE_ADMIN')")
-    // @PostMapping("/post")
-    // public UCSBDiningCommonMenuItems postCommonMenuItems (
-    //         @Parameter(name="diningCommonsCode") @RequestParam String diningCommonsCode,
-    //         @Parameter(name="name") @RequestParam String name,
-    //         @Parameter(name="station") @RequestParam String station) 
-    //         throws JsonProcessingException{
+    @Operation(summary= "Create a new item")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PostMapping("/post")
+    public UCSBDiningCommonMenuItems postCommonMenuItems (
+            @Parameter(name="diningCommonsCode") @RequestParam String diningCommonsCode,
+            @Parameter(name="name") @RequestParam String name,
+            @Parameter(name="station") @RequestParam String station) 
+            throws JsonProcessingException{
         
-    //     UCSBDiningCommonMenuItems items = new UCSBDiningCommonMenuItems();
-    //     items.setDiningCommonsCode(diningCommonsCode);
-    //     items.setName(name);
-    //     items.setStation(station);
+        UCSBDiningCommonMenuItems items = new UCSBDiningCommonMenuItems();
+        items.setDiningCommonsCode(diningCommonsCode);
+        items.setName(name);
+        items.setStation(station);
 
-    //     UCSBDiningCommonMenuItems saveditems = ucsbDiningCommonMenuItemsRepository.save(items);
+        UCSBDiningCommonMenuItems saveditems = ucsbDiningCommonMenuItemsRepository.save(items);
 
-    //     return saveditems;
-    //     }
+        return saveditems;
+        }
 
     // @Operation(summary= "Get a single item")
     // @PreAuthorize("hasRole('ROLE_USER')")
     // @GetMapping("")
     // public UCSBDiningCommonMenuItems getById(
     //     @Parameter(name="id") @RequestParam long id) {
-    //         UCSBDiningCommonMenuItems item = ucsbDiningCommonMenuItemRepository.findById(id)
+    //         UCSBDiningCommonMenuItems item = ucsbDiningCommonMenuItemsRepository.findById(id)
     //         .orElseThrow(() -> new EntityNotFoundException(UCSBDiningCommonMenuItems.class, id));
     
     //         return item;
