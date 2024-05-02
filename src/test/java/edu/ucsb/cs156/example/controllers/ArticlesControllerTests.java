@@ -264,7 +264,7 @@ public class ArticlesControllerTests extends ControllerTestCase {
         }
 
         // Tests for PUT /api/ucsbdates?id=... 
-            /* 
+            
         @WithMockUser(roles = { "ADMIN", "USER" })
         @Test
         public void admin_can_edit_an_existing_Article() throws Exception {
@@ -345,5 +345,5 @@ public class ArticlesControllerTests extends ControllerTestCase {
                 Map<String, Object> json = responseToJson(response);
                 assertEquals("Articles with id 123 not found", json.get("message"));
         }
-*/
+
     }
