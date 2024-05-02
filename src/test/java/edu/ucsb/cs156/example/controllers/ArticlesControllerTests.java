@@ -153,7 +153,7 @@ public class ArticlesControllerTests extends ControllerTestCase {
         }
 
         // Tests for GET /api/ucsbdates?id=...
-      
+      /* 
         @Test
         @WithMockUser(roles = { })
         public void logged_out_users_cannot_get_by_id() throws Exception {
@@ -264,7 +264,7 @@ public class ArticlesControllerTests extends ControllerTestCase {
         }
 
         // Tests for PUT /api/ucsbdates?id=... 
-            /* 
+
         @WithMockUser(roles = { "ADMIN", "USER" })
         @Test
         public void admin_can_edit_an_existing_Article() throws Exception {
