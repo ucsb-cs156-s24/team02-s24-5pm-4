@@ -133,6 +133,52 @@ public class UCSBDiningCommonMenuItemsControllerTests extends ControllerTestCase
 
     }
 
+    //tests for single get
+    @Test
+    public void logged_out_users_cannot_get_by_id() throws Exception {
+        mockMvc.perform(get("/api/ucsbdiningcommonmenuitems/all"))
+        .andExpect(status().is(403)); // logged out users can't get by id
+ 
+    }
 
+    @WithMockUser(roles = { "USER" })
+    @Test
+    public void test_that_logged_in_user_can_get_by_id_when_the_id_exists() throws Exception {
+        UCSBDiningCommonMenuItems item = UCSBDiningCommonMenuItems.builder()
+            .diningCommonsCode("Portola")
+            .name("Sage & Sweet Potato Soup (v)")
+            .station("Greens & Grains")
+            .build();
 
+        when(ucsbDiningCommonMenuItemsRepository.findById(eq(12L))).thenReturn(Optional.of(item));
+
+        // act
+        MvcResult response = mockMvc.perform(get("/api/ucsbdiningcommonmenuitems?id=12"))
+                        .andExpect(status().isOk()).andReturn();
+        //assert
+        verify(ucsbDiningCommonMenuItemsRepository,times(1)).findById(eq(12L));
+        String expectedJson = mapper.writeValueAsString(item);
+        String responseString = response.getResponse().getContentAsString();
+        assertEquals(expectedJson,responseString);
+
+    }
+
+    @WithMockUser(roles = { "USER" })
+    @Test
+    public void logged_in_user_can_get_id_when_the_id_does_not_exist() throws Exception {
+
+            // arrange
+            when(ucsbDiningCommonMenuItemsRepository.findById(eq(12L))).thenReturn(Optional.empty());
+
+            // act
+            MvcResult response = mockMvc.perform(get("/api/ucsbdiningcommonmenuitems?id=12"))
+                            .andExpect(status().isNotFound()).andReturn();
+
+            // assert
+            verify(ucsbDiningCommonMenuItemsRepository, times(1)).findById(eq(12L));
+            Map<String, Object> json = responseToJson(response);
+            assertEquals("EntityNotFoundException", json.get("type"));
+            assertEquals("UCSBDiningCommonMenuItems with id 12 not found", json.get("message"));
+    }
 }
+
